@@ -1,3 +1,1 @@
-{
-  "example1640115194262029000.png": "#Checkboard\npixX= 15\npixY= 15\narray = [[(i+j)%2 for i in range(pixX)] for j in range(pixY)]\ndisp(array)\n"
-}
+{}
