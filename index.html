@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="HTMLBanner.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style>
+        h1 {
+            margin-bottom: 0;
+            margin-top: 0
+        }
+
+        h2 {
+            margin-bottom: 0;
+            margin-top: 0
+        }
+
+        p {
+            margin-bottom: 0;
+            margin-top: 0
+        }
+
+        .box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .div1 {
+            width: 600px;
+            height: 150px;
+            border: 0;
+            font-size: 10px;
+        }
+
+        .image {
+            opacity: 1;
+            display: inline-block;
+            border: 2px solid darkcyan;
+            width: 80px;
+            height: auto;
+            margin: 1px;
+            transition: .1s ease;
+            backface-visibility: hidden;
+            border-radius: 8px;
+        }
+
+        .imagebig {
+            opacity: 1;
+            display: inline-block;
+            border: 2px solid darkcyan;
+            width: 170px;
+            height: auto;
+            margin: 1px;
+            transition: .1s ease;
+            backface-visibility: hidden;
+            border-radius: 8px;
+        }
+
+        .image:hover {
+            opacity: 0.4;
+        }
+
+        .imagebig:hover {
+            opacity: 0.4;
+        }
+    </style>
+    <title>Mobject Gallery</title>
+
+</head>
+
+<body style="background-color:#ece6e2;">
+
+    <div style="text-align:center">
+        <h2>Mobject Gallery</h2>
+        <a href="https://github.com/kolibril13/mobject-gallery">https://github.com/kolibril13/mobject-gallery</a>
+        <p>Hint: In PyCharm, activate the setting "Smart indent pasted lines".</p>
+        <p>Click on the images below to copy the code snippet. </p>
+    </div>
+    <div class="div1">
+
+<br>
+
+<pre><code class="python" id="info_field"><b>Here will come the text that you copied.</b>
+class Example(Scene):
+    def construct(self):
+        self.add(Dot(color=YELLOW))
+</code></pre>
+    </div>
+    <div class="box">
+        <p id="version_number"></p>
+    </div>
+
+<script src="init_images_and_text.js"></script>
+
+
+</body>
+
+</html>
