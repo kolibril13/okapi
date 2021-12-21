@@ -16,14 +16,28 @@ for (let key of Object.keys(jsonData1)) {
 }
 
 
-var request4 = new XMLHttpRequest();
-request4.open("GET", "imgs/structuring_elements.json", false);
-request4.send(null);
-var jsonData4 = JSON.parse(request4.responseText);
+
+
+var request2 = new XMLHttpRequest();
+request2.open("GET", "imgs/structuring_elements.json", false);
+request2.send(null);
+var jsonData4 = JSON.parse(request2.responseText);
 document.writeln(' <h1>3D Structuring Elements</h1>')
 for (let key of Object.keys(jsonData4)) {
     document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagebig'> `);
 }
+
+
+var request3 = new XMLHttpRequest();
+request3.open("GET", "imgs/3d_morphology.json", false);
+request3.send(null);
+var jsonData4 = JSON.parse(request3.responseText);
+document.writeln(' <h1>3D Morphology</h1>')
+for (let key of Object.keys(jsonData4)) {
+    document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagelarge'> `);
+}
+
+
 
 // add copy button to images
 function myFunction(imgs) {
