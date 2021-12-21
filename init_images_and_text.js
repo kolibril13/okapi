@@ -28,6 +28,6 @@ for (let key of Object.keys(jsonData4)) {
 // add copy button to images
 function myFunction(imgs) {
     var name = imgs.alt;
-    navigator.clipboard.writeText(name);
-    document.getElementById("info_field").innerHTML = name + " \n<b>is now copied to clipboard.</b>"
+    // navigator.clipboard.writeText(name); # copying is disabled for now
+    document.getElementById("info_field").innerHTML = name + " \n<b>is the corresponding code</b>"
 }
