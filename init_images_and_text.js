@@ -17,10 +17,10 @@ for (let key of Object.keys(jsonData1)) {
 
 
 var request4 = new XMLHttpRequest();
-request4.open("GET", "imgs/structuing_elements.json", false);
+request4.open("GET", "imgs/structuring_elements.json", false);
 request4.send(null);
 var jsonData4 = JSON.parse(request4.responseText);
-document.writeln(' <h1>3D Structuing Elements</h1>')
+document.writeln(' <h1>3D Structuring Elements</h1>')
 for (let key of Object.keys(jsonData4)) {
     document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagebig'> `);
 }
