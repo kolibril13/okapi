@@ -28,16 +28,23 @@ for (let key of Object.keys(jsonData4)) {
 }
 
 
-var request3 = new XMLHttpRequest();
-request3.open("GET", "imgs/3d_morphology.json", false);
-request3.send(null);
-var jsonData4 = JSON.parse(request3.responseText);
-document.writeln(' <h1>3D Morphology</h1>')
+// var request3 = new XMLHttpRequest();
+// request3.open("GET", "imgs/3d_morphology.json", false);
+// request3.send(null);
+// var jsonData4 = JSON.parse(request3.responseText);
+// document.writeln(' <h1>3D Morphology</h1>')
+// for (let key of Object.keys(jsonData4)) {
+//     document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagelarge'> `);
+// }
+
+var request4 = new XMLHttpRequest();
+request4.open("GET", "imgs/napari.json", false);
+request4.send(null);
+var jsonData4 = JSON.parse(request4.responseText);
+document.writeln(' <h1>Napari</h1>')
 for (let key of Object.keys(jsonData4)) {
-    document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagelarge'> `);
+    document.write(`<img src='imgs/${key}' alt= '${jsonData4[key]}' onclick='myFunction(this);' class='imagebig'> `);
 }
-
-
 
 // add copy button to images
 function myFunction(imgs) {

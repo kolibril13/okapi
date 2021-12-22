@@ -1,0 +1,14 @@
+{
+  "example1640168892518834000.png": "import matplotlib.pyplot as plt\nimport napari\nimport numpy as np\nimport scipy\nfrom scipy import ndimage as ndi\nfrom skimage import data\ntry:\n    viewer\nexcept NameError:\n    viewer = napari.Viewer()\n    viewer.theme = 'light'\n    viewer.dims.ndisplay = 3\n\ndef make_screenshot(viewer):\n    img = viewer.screenshot(canvas_only=True, flash= False)\n    plt.imshow(img)\n    plt.axis(\"off\")\n\n# make data\nblobs = data.binary_blobs(length=301, volume_fraction=0.1, n_dim=3, seed=42)\nblobs  = blobs[200:,200:, :-100]\nblobs[:,:,:50]=1\n\nviewer.reset_view()\n\nviewer.layers.clear()\n\nlayer1 = viewer.add_labels(blobs, name=\"layer1\", seed=0.03)\nlayer1.opacity = 1\nmake_screenshot(viewer)\n",
+  "example1640168892616250000.png": "viewer.reset_view()\nviewer.camera.center = (50, 50, 200)\nmake_screenshot(viewer)\n",
+  "example1640168892728670000.png": "viewer.reset_view()\nviewer.camera.center = (50, 130, 100)\nmake_screenshot(viewer)\n",
+  "example1640168892838963000.png": "viewer.reset_view()\nviewer.camera.angles = (30, 0, 0)\nmake_screenshot(viewer)\n",
+  "example1640168892946775000.png": "viewer.reset_view()\nviewer.camera.angles = (0, 30, 0)\nmake_screenshot(viewer)\n",
+  "example1640168893055681000.png": "viewer.reset_view()\nviewer.camera.angles = (0, 0, 30)\nmake_screenshot(viewer)\n",
+  "example1640168893170841000.png": "viewer.reset_view()\nviewer.camera.angles = (30, 40, 80)\nmake_screenshot(viewer)\n",
+  "example1640168893271157000.png": "viewer.camera.zoom = 0.8\nmake_screenshot(viewer)\n",
+  "example1640168893393306000.png": "viewer.camera.zoom = 8\nmake_screenshot(viewer)\n",
+  "example1640168893650793000.png": "labeled = ndi.label(blobs)[0]\nlayer2 = viewer.add_labels(labeled, name=\"layer2\", seed=0.03)\nlayer2.opacity=1\nmake_screenshot(viewer)\n",
+  "example1640168893997069000.png": "layer1.opacity = 0\nlayer2.opacity = 0.5\nmake_screenshot(viewer)\n",
+  "example1640168894112397000.png": "viewer.reset_view()\nmake_screenshot(viewer)\n"
+}
