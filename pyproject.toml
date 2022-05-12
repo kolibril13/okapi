@@ -1,0 +1,6 @@
+[tool.poetry]
+name = "jupyter-capture-output"
+version = "0.0.1"
+description = "Capture output from JupyterLab"
+authors = ["kolibril13"]
+license = "MIT"
