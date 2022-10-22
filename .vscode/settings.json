@@ -1,5 +1,0 @@
-{
-    "python.formatting.blackPath": "black",
-    "python.formatting.provider": "black",
-    "git.ignoreLimitWarning": true
-}
