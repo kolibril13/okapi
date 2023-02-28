@@ -1,13 +1,22 @@
 okapi_env/
-
+data/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.DS_Store
-
+.venv11
+media/
+x2Knee/
+files/
 # C extensions
 *.so
+
+rip_fracture_data/
+female_feet_data/
+
+01_10.00Apx_particles.star
+01_10.00Apx.mrc
 
 # Distribution / packaging
 .Python
