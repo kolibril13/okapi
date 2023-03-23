@@ -19,6 +19,21 @@ body:
         - Other
     validations:
       required: true
+
+  - type: textarea
+    id: describe
+    attributes:
+      label: Feature Request
+      value: |
+        # Describe the feature you'd like to request
+        <!--  A clear and concise description of what you want and what your use case is. -->
+        
+        # Describe the solution you'd like
+        <!-- A clear and concise description of what you want to happen. -->
+        
+        # Describe alternatives you've considered
+        <!-- A clear and concise description of any alternative solutions or features you've considered. -->
+
   - type: textarea
     attributes:
       label: Describe the feature you'd like to request
