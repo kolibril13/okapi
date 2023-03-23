@@ -1,8 +1,8 @@
 ---
 name: Feature request 2
-about: Request a new feature for Manim
+about: Request a new feature 🪄
 title: ""
-labels: new feature
+labels: ['story']
 assignees: ''
 
 ---
