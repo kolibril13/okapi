@@ -21,6 +21,15 @@ exports:
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa tincidunt dui ut ornare lectus sit amet est placerat.
 +++
 # Intro
+
+
+:::{figure} #my-vid-embedded
+:name: fig-vid-embedded
+Embedded video
+:::
+
+
+Jajaja
 Many **phenomena** are described by Euler's identity  [](#my-eq).  
 It's used in the wave equation[^myref].  
 More in [](#my-fig), [](#my-program) and [](#example-table).  
