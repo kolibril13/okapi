@@ -14,11 +14,18 @@ keywords: myst, markdown, open-science
 exports:
   - format: pdf
     template: arxiv_two_column
+
+
+abbreviations:
+  ODE: ordinary differential equation
 ---
+
+
+
 
 +++ {"part": "abstract"}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa tincidunt dui ut ornare lectus sit amet est placerat.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa tincidunt dui ut ornare lectus sit amet est placerat. To solve a ODE, we can use imaginary numbers.
 +++
 # Intro
 
