@@ -1,5 +1,0 @@
-# Okapi minimal example.
-
-
-
-
