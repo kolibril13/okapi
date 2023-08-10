@@ -6,7 +6,7 @@ function App() {
   const [testData, setTestData] = useState(null);
 
   useEffect(() => {
-    fetch("/TEST.json")
+    fetch("/TEST.json.gz")
       .then((response) => response.json())
       .then((data) => setTestData(data))
       .catch((error) => console.error("There was an error!", error));
