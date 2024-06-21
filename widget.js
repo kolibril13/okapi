@@ -5,13 +5,9 @@ function render({ model, el }) {
   let container = document.createElement("div");
   container.style.height = "500px";
   container.style.width = "500px";
-
   el.appendChild(container);
-  let data = model.get("voxel_data");
-  console.log(data);
 
   const scene = new THREE.Scene();
-
   const camera = new THREE.PerspectiveCamera(
     75,
     container.clientWidth / container.clientHeight,
@@ -20,34 +16,27 @@ function render({ model, el }) {
   );
   camera.position.z = 15;
 
-  // Create the renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
 
-  // Initialize OrbitControls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; // Enable damping (inertia)
+  controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.screenSpacePanning = false; // Prevent camera from panning vertically
-  controls.minDistance = 5; // Set minimum zoom distance
-  controls.maxDistance = 50; // Set maximum zoom distance
+  controls.screenSpacePanning = false;
+  controls.minDistance = 5;
+  controls.maxDistance = 50;
 
-  // Function to interpolate color based on value
   function getColor(value) {
     const minColor = new THREE.Color("yellow");
     const maxColor = new THREE.Color("red"); 
     return minColor.lerp(maxColor, value / 255);
   }
 
-  // Function to draw voxels
   function drawVoxels(data) {
-    // Calculate center offset
     const offsetX = data.length / 2;
     const offsetY = data[0].length / 2;
     const offsetZ = data[0][0].length / 2;
-
-    // Iterate over the voxel data and create cubes
     const geometry = new THREE.BoxGeometry();
 
     for (let x = 0; x < data.length; x++) {
@@ -65,7 +54,6 @@ function render({ model, el }) {
     }
   }
 
-  // Function to clear the scene and dispose of geometries and materials
   function clearScene() {
     scene.children.forEach((child) => {
       if (child instanceof THREE.Mesh) {
@@ -76,31 +64,23 @@ function render({ model, el }) {
     });
   }
 
-  // Initial draw
-  drawVoxels(data);
-
-  // Listen for changes in the voxel data
-  model.on("change:voxel_data", () => {
-    // Clear the scene
-    clearScene();
-
-    // Get the new voxel data
-    const newData = model.get("voxel_data");
-
-    // Draw the new voxels
-    drawVoxels(newData);
-  });
-
-  // Render the scene
   function animate() {
     requestAnimationFrame(animate);
-
-    // Update controls
     controls.update();
-
-    // Render the scene
     renderer.render(scene, camera);
   }
+
+  // Initial draw
+  setTimeout(() => {
+    const data = model.get("voxel_data");
+    drawVoxels(data);
+  }, 1000); // Adjust the timeout duration as needed
+
+  model.on("change:voxel_data", () => {
+    clearScene();
+    const newData = model.get("voxel_data");
+    drawVoxels(newData)
+  });
 
   animate();
 }
