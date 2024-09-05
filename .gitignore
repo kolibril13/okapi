@@ -1,3 +1,5 @@
+# MyST build outputs
+_build
 node_modules
 .venv
 dist
