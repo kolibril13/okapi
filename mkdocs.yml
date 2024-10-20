@@ -1,1 +1,25 @@
 site_name: My Docs
+
+nav:
+  - Home: index.md
+  - DEMO: n1a_objects.ipynb
+
+
+theme:
+  name: material
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
+
+plugins:
+  - search:
+      separator: '[\s\-_,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - mkdocs-jupyter
