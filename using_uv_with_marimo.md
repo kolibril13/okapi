@@ -17,6 +17,8 @@ uv pip install marimo
 uv run marimo edit hi.py
 ```
 
+Note: this venv can also be activated via `source .venv/bin/activate` and then marimo can be started via `marimo edit hi.py`, but this pattern is **not recommended**.  
+
 For specific python versions, use `uv venv --python 3.13`.
 The default python version is defined at #TODO CHECK.
 
@@ -27,6 +29,14 @@ b) In the notebook itelf type `import polars as pd` and a installation guide wil
 c) Go to the packages tab, and select the package.
 
 #Todo: screen recroding of packages tab.
+
+If you want to define your project dependecies in `pyproject.toml`, you can make the follwoing workflow:
+
+```
+uv init (this will create a pyproject.toml file)
+uv add marimo  (this will add "marimo>=0.9.9" to dependencies in pyproject.toml)
+uv run marimo edit hi.py 
+```
 
 # Temporary installation
 This won't create a virtual environment folder in your working direory. 
