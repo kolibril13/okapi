@@ -34,18 +34,9 @@ tell application "System Events"
 		-- Confirm new display setting
 		delay 1
 		if exists of sheet 1 then
-			click button 1 of group 0 of sheet 1
+			click button 2 of group 0 of sheet 1
 		end if
 		
-		-- Arrange monitors
-		delay 0.1
-		if theRotation = "Standard" then
-			-- vertical arrangement
-			do shell script "/opt/homebrew/bin/displayplacer \"id:8B54EED0-06DA-6D6D-0857-D6964E3302DB res:1692x3008 scaling:on origin:(0,-3008) degree:90\""
-		else
-			-- horizontal arrangement
-			do shell script "/opt/homebrew/bin/displayplacer \"id:8B54EED0-06DA-6D6D-0857-D6964E3302DB res:2560x1440 scaling:on origin:(-427,-1440) degree:0\""
-		end if
 	end tell
 end tell
 
