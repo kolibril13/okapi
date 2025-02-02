@@ -76,8 +76,8 @@ def create_thick_line_path(x1, y1, x2, y2, thickness):
     
     return path_d
 
-def process_svg(svg_content):
-    """Process the SVG content and convert stroked paths to filled paths."""
+def replace_stroke_with_path(svg_content):
+    """Convert stroked paths to filled paths in the given SVG content."""
     # Parse the SVG string
     parser = etree.XMLParser(remove_blank_text=True)
     svg_root = etree.fromstring(svg_content.strip(), parser)
