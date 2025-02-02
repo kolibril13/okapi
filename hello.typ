@@ -1,25 +1,8 @@
 
-#let group-counter = counter("groups")
+#set page(width: auto, height: auto, margin: 0cm, fill: none)
+#set text(size: 80pt)
 
-#let group(it, name: none) = {
-  let labelled(x, y)=[#x #y]
+#let korange() = text(fill: orange)[$k$]
+#let nblue() = text(fill: blue)[$n$]
 
-  if type(name) == type("") {
-    return labelled(box[#it], label(name));
-  }
-
-    group-counter.step()
-  context{
-    let group-name = "Group " + str(group-counter.get().at(0) -1);
-    return labelled(box[#it], label(group-name));
-  }
-}
-
-#group(name: "4")[dcd]
-#group[dddddd]
-
-#group[dddddd]
-
-$
-  group(x) = 1
-$
+$ sum_(#korange() = 1)^#nblue() #korange() = (nblue()(nblue()+1)) / 2 $  
