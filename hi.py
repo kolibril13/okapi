@@ -178,15 +178,17 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
             peak  = start + step        #    10, 20, 30, ...
             end   = start + 2 * step    #    20, 30, 40, ...
             
-            # insert 0 → 1 → 0
+            # insert 0 → 1 → 0 (or 0 → 1 for last shape key)
             sk.value = 0
             sk.keyframe_insert("value", frame=start)
             
             sk.value = 1
             sk.keyframe_insert("value", frame=peak)
             
-            sk.value = 0
-            sk.keyframe_insert("value", frame=end)
+            # Only insert the end keyframe if this is not the last shape key
+            if i < len(shape_keys) - 1:
+                sk.value = 0
+                sk.keyframe_insert("value", frame=end)
                         
             # Force linear interpolation on all shape key value fcurves
             action = sk_block.animation_data.action
