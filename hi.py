@@ -15,10 +15,11 @@ class GEO_PT_GeoNodesToShapeKey(bpy.types.Panel):
 
         layout.prop(props, "selected_object")
         layout.prop(props, "total_frames")
-        layout.prop(props, "use_relative")
+
         layout.operator("object.geonodes_prep", text="Prep Copies")
         layout.separator()
         layout.operator("object.merge_to_shapekeys", text="Merge to ShapeKeys")
+        layout.prop(props, "use_relative")
         layout.separator()
         layout.operator("object.rename_and_delete", text="Rename and Delete")
 
