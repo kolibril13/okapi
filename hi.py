@@ -34,8 +34,8 @@ class GEO_OT_GeoNodesPrep(bpy.types.Operator):
     def execute(self, context):
         props = context.scene.geonodes_to_shapekey_props
         base_obj = props.selected_object
-        total   = props.total_frames
-        scene   = context.scene
+        total = props.total_frames
+        scene = context.scene
 
         if not base_obj:
             self.report({'ERROR'}, "No object selected.")
@@ -72,7 +72,7 @@ class GEO_OT_GeoNodesPrep(bpy.types.Operator):
                     f"Could not apply modifier on {copy.name}: {e}"
                 )
 
-        # restore
+        # Restore selection
         bpy.ops.object.select_all(action='DESELECT')
         if original_active:
             original_active.select_set(True)
@@ -93,16 +93,15 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        # ensure Object mode
+        # Ensure Object mode
         if context.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
 
         props = context.scene.geonodes_to_shapekey_props
-        total = props.total_frames
         scene = context.scene
         use_relative = props.use_relative
 
-        # collect and sort all copyN objects
+        # Collect and sort all copyN objects
         copies = [o for o in scene.objects if o.name.startswith("copy")]
         if len(copies) < 2:
             self.report({'ERROR'}, "Need at least copy1 and copy2 present.")
@@ -116,32 +115,32 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
         copies.sort(key=idx)
 
         copy1 = copies[0]
-        rest  = copies[1:]
+        rest = copies[1:]
 
-        # select copy1 and make active
+        # Select copy1 and make active
         bpy.ops.object.select_all(action='DESELECT')
         copy1.select_set(True)
         context.view_layer.objects.active = copy1
 
-        # 1) add Basis shape key
+        # 1) Add Basis shape key
         bpy.ops.object.shape_key_add(from_mix=False)
 
-        # 2) join each other copy as its own shape key
+        # 2) Join each other copy as its own shape key
         for o in rest:
             o.select_set(True)
             bpy.ops.object.join_shapes()
             o.select_set(False)
 
-        # 3) disable relative mode on the shape-key block if not using relative
+        # 3) Configure shape keys based on mode
         sk_block = copy1.data.shape_keys
         if not use_relative:
             sk_block.use_relative = False
 
-            # 4) animate eval_time from 0 → (num_copies−1)*10 over frames [1…(num_copies−1)*24]
+            # 4) Animate eval_time from 0 → (num_copies−1)*10 over frames [1…(num_copies−1)*24]
             start_frame = 1
-            end_frame   = (len(copies) - 1) * 24
+            end_frame = (len(copies) - 1) * 24
 
-            # ensure we have animation data
+            # Ensure we have animation data
             if not sk_block.animation_data:
                 sk_block.animation_data_create()
 
@@ -151,7 +150,7 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
             sk_block.eval_time = (len(copies) - 1) * 10
             sk_block.keyframe_insert(data_path="eval_time", frame=end_frame)
 
-            # force linear interpolation on the eval_time fcurve
+            # Force linear interpolation on the eval_time fcurve
             action = sk_block.animation_data.action
             for fcu in action.fcurves:
                 if fcu.data_path == "eval_time":
@@ -189,8 +188,10 @@ class GEO_OT_RenameAndDelete(bpy.types.Operator):
 
         # Sort so we get copy1 first
         def idx(o):
-            try: return int(o.name.replace("copy", ""))
-            except: return 0
+            try: 
+                return int(o.name.replace("copy", ""))
+            except: 
+                return 0
         copies.sort(key=idx)
 
         copy1 = copies[0]
@@ -224,7 +225,7 @@ class GEO_Props(bpy.types.PropertyGroup):
     use_relative: BoolProperty(
         name="Relative",
         description="Use relative shape keys instead of absolute (no keyframes)",
-        default=False
+        default=True
     )
 
 
@@ -247,4 +248,4 @@ def unregister():
         bpy.utils.unregister_class(cls)
 
 if __name__ == "__main__":
-    register()
+    register() 
