@@ -1,5 +1,5 @@
 import bpy
-from bpy.props import IntProperty, PointerProperty
+from bpy.props import IntProperty, PointerProperty, BoolProperty
 
 # ─── PANEL ────────────────────────────────────────────────────────────────────
 class GEO_PT_GeoNodesToShapeKey(bpy.types.Panel):
@@ -15,6 +15,7 @@ class GEO_PT_GeoNodesToShapeKey(bpy.types.Panel):
 
         layout.prop(props, "selected_object")
         layout.prop(props, "total_frames")
+        layout.prop(props, "use_relative")
         layout.operator("object.geonodes_prep", text="Prep Copies")
         layout.separator()
         layout.operator("object.merge_to_shapekeys", text="Merge to ShapeKeys")
@@ -98,6 +99,7 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
         props = context.scene.geonodes_to_shapekey_props
         total = props.total_frames
         scene = context.scene
+        use_relative = props.use_relative
 
         # collect and sort all copyN objects
         copies = [o for o in scene.objects if o.name.startswith("copy")]
@@ -129,36 +131,42 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
             bpy.ops.object.join_shapes()
             o.select_set(False)
 
-        # 3) disable relative mode on the shape-key block
+        # 3) disable relative mode on the shape-key block if not using relative
         sk_block = copy1.data.shape_keys
-        sk_block.use_relative = False
+        if not use_relative:
+            sk_block.use_relative = False
 
-        # 4) animate eval_time from 0 → (num_copies−1)*10 over frames [1…(num_copies−1)*24]
-        start_frame = 1
-        end_frame   = (len(copies) - 1) * 24
+            # 4) animate eval_time from 0 → (num_copies−1)*10 over frames [1…(num_copies−1)*24]
+            start_frame = 1
+            end_frame   = (len(copies) - 1) * 24
 
-        # ensure we have animation data
-        if not sk_block.animation_data:
-            sk_block.animation_data_create()
+            # ensure we have animation data
+            if not sk_block.animation_data:
+                sk_block.animation_data_create()
 
-        sk_block.eval_time = 0
-        sk_block.keyframe_insert(data_path="eval_time", frame=start_frame)
+            sk_block.eval_time = 0
+            sk_block.keyframe_insert(data_path="eval_time", frame=start_frame)
 
-        sk_block.eval_time = (len(copies) - 1) * 10
-        sk_block.keyframe_insert(data_path="eval_time", frame=end_frame)
+            sk_block.eval_time = (len(copies) - 1) * 10
+            sk_block.keyframe_insert(data_path="eval_time", frame=end_frame)
 
-        # force linear interpolation on the eval_time fcurve
-        action = sk_block.animation_data.action
-        for fcu in action.fcurves:
-            if fcu.data_path == "eval_time":
-                for kp in fcu.keyframe_points:
-                    kp.interpolation = 'LINEAR'
+            # force linear interpolation on the eval_time fcurve
+            action = sk_block.animation_data.action
+            for fcu in action.fcurves:
+                if fcu.data_path == "eval_time":
+                    for kp in fcu.keyframe_points:
+                        kp.interpolation = 'LINEAR'
 
-        self.report(
-            {'INFO'},
-            f"Merged {len(rest)} copies into '{copy1.name}', "
-            f"eval_time keyed @ {start_frame} → {end_frame}"
-        )
+            self.report(
+                {'INFO'},
+                f"Merged {len(rest)} copies into '{copy1.name}', "
+                f"eval_time keyed @ {start_frame} → {end_frame}"
+            )
+        else:
+            self.report(
+                {'INFO'},
+                f"Merged {len(rest)} copies into '{copy1.name}' with relative shape keys"
+            )
         return {'FINISHED'}
 
 
@@ -211,6 +219,11 @@ class GEO_Props(bpy.types.PropertyGroup):
         name="Object",
         description="Select the GeoNodes-enabled object",
         type=bpy.types.Object
+    )
+    use_relative: BoolProperty(
+        name="Relative",
+        description="Use relative shape keys instead of absolute (no keyframes)",
+        default=False
     )
 
 
