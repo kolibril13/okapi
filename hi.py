@@ -163,6 +163,38 @@ class GEO_OT_MergeToShapeKeys(bpy.types.Operator):
                 f"eval_time keyed @ {start_frame} → {end_frame}"
             )
         else:
+            # For relative mode, keyframe each shape key value
+            # Ensure we have animation data
+            if not sk_block.animation_data:
+                sk_block.animation_data_create()
+                
+            # Get all shape keys except the basis
+            shape_keys = [sk for sk in copy1.data.shape_keys.key_blocks if sk.name != "Basis"]
+            
+        step = 10     # half-width of each triangle
+        for i, sk in enumerate(shape_keys):
+            # for key i:
+            start = i * step            #     0, 10, 20, ...
+            peak  = start + step        #    10, 20, 30, ...
+            end   = start + 2 * step    #    20, 30, 40, ...
+            
+            # insert 0 → 1 → 0
+            sk.value = 0
+            sk.keyframe_insert("value", frame=start)
+            
+            sk.value = 1
+            sk.keyframe_insert("value", frame=peak)
+            
+            sk.value = 0
+            sk.keyframe_insert("value", frame=end)
+                        
+            # Force linear interpolation on all shape key value fcurves
+            action = sk_block.animation_data.action
+            for fcu in action.fcurves:
+                if fcu.data_path.startswith("key_blocks[") and fcu.data_path.endswith("].value"):
+                    for kp in fcu.keyframe_points:
+                        kp.interpolation = 'LINEAR'
+            
             self.report(
                 {'INFO'},
                 f"Merged {len(rest)} copies into '{copy1.name}' with relative shape keys"
@@ -224,7 +256,7 @@ class GEO_Props(bpy.types.PropertyGroup):
     )
     use_relative: BoolProperty(
         name="Relative",
-        description="Use relative shape keys instead of absolute (no keyframes)",
+        description="Use relative shape keys instead of absolute",
         default=True
     )
 
