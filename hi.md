@@ -8,16 +8,24 @@ Curating the example (the fun part) takes 10 minutes.
 Contributing it (the not so fun part) takes 2 hours, spread over multiple weeks.
 
 Why does it take so long?
-You have to go through the entire Git workflow: fork, clone, open the IDE.
-Adding a screenshot introduces even more overhead: you need to come up with a filename, create a folder, and figure out how to reference the image in the right place, often in a framework-specific way.
+You have to go through the full Git workflow: fork the repo, clone it, open the IDE.
+Adding a screenshot brings extra overhead: you need to come up with a filename, create a folder, and figure out how to reference the image in the right place, often in a framework-specific way.
 
-Also, image files are often >100kB, not very git friendly.
+Also, image files are usually >100kB, not very git friendly.
 
-Then comes the commit message, the pull request template, and finally the review. But for the reviewer, it’s not easy either. They don’t see the docs as they’ll appear, only the underlying changes: file paths, markdown diffs. 
+Next, we have the commit message, the pull request template, and finally the review. But for the reviewer, it’s not easy either. They don’t see the docs as they’ll appear, only the underlying changes: file paths, markdown diffs. 
 
 So what’s the solution?
-I think that contributing docs should feel more like suggesting edits in Google Docs, not navigating a full development pipeline.
-After a bit of research, I found frameworks like docmost https://docmost.com/. 
-But it would be difficult to switch a full framework for already existing docs, so maybe another idea.
-what if an AI agent could handle the overhead? Something like:
-“Hey, add this screenshot to the docs under ‘Examples → GeoNodes’.”  And it just does the right thing.
+Contributing to documentation should feel more like making suggestions in Google Docs, not like navigating a full dev pipeline.
+
+After a bit of research, I found the framework docmost https://docmost.com/ that use a non-git approach.
+(Docmost is the Open Source Alternative to Notion)
+But switching frameworks for big projects like Blender seems unrealistic.
+
+Another idea:
+What if an AI agent could handle the overhead?
+Something like:
+"Hey, add this screenshot to the docs under Examples → GeoNodes. " while visiting the docs page, and the AI handels the overhead.
+
+How can we improve the open source docs contribution experience? 
+Let me know in the comment.s
