@@ -1,19 +1,67 @@
-Blender for scientific animation
-This course is an introduction to the software Blender. Blender is a general purpose 3D animation software used mostly for art, object mesh generation etc. However there is a growing community using Blender to create scientific visualizations and animations. This course will cover both an introduction to the software and an introduction to scientific extensions:
-Day 1: Blender basics: materials, shading, node systems, asset management, and animation with keyframes.
-Day 2: Geometry Nodes: object manipulation, simulation zones (e.g. wavefront animation https://www.youtube.com/watch?v=0sVu0qpeUyg ), and project-based learning (e.g. Brownian motion with Molecular Nodes, microscopy nodes with a simple stack). Simple data pipeline project via notebook. E.g. Python simulation of Black Body radiation connected to Blender.
-Course Objectives
-Become familiar with the Blender interface
-Learn how to use scientific extensions to create renderings and animations
-Learn how to interface Blender with interactive computing (Jupyter)
-Target group
-Students and Staff of UniBe.
-Prerequisites
-Participants must bring own laptops
-No specific knowledge is required. However, for the second day, some experience with Python is of benefit.
-Methods
-Combination of demonstrations and hands-on exercises-
-Certificate
+# Blender for Scientific Animation
+
+This course is an introduction to the software Blender. Blender is a general purpose 3D animation tool, mostly used in art and for object mesh generation. However there is a growing community using Blender to create scientific visualizations and animations.
+
+The course covers both a general introduction to Blender and an introduction to scientific extensions.
+
+---
+
+## Course Schedule
+
+**Day 1 – Blender Basics**
+- Blender UI Navigation
+- Mesh manipulation
+- Node systems (Shader nNdes, Geometry Nodes, Compositon Nodes)
+- Animation with keyframes
+- Geometry Nodes 1
+- Asset management
+
+**Day 2 – Geometry Nodes & Scientific Projects**
+- Geometry Nodes  2
+- Simulation zones (e.g. [wavefront animation](https://www.youtube.com/watch?v=0sVu0qpeUyg))
+- Project-based learning:
+  - Brownian motion with Molecular Nodes
+  - Microscopy data with simple 3D image-stacks 
+  - Simple data pipeline via Jupyter Notebook (E.g. Python simulation of Black Body radiation connected to Blender)
+
+---
+
+## Course Objectives
+
+- Get comfortable with the Blender interface  
+- Understand the principles of node-based workflows (shading, geometry nodes, and compositing)
+- Learn to use scientific extensions for creating renderings and animations  
+- Understand how to interface Blender with interactive computing (e.g. Jupyter)
+
+---
+
+## Target Group
+
+Students and staff of the University of Bern (UniBe)
+
+---
+
+## Prerequisites
+
+- Participants must bring their own laptops  
+- No prior experience required
+- Some Python experience is helpful for Day 2
+
+---
+
+## Methods
+
+A mix of demonstrations and hands-on exercises
+
+---
+
+##  Certificate
+
 A certificate will be delivered to participants who have attended the whole training.
-Coaches
+
+---
+
+##  Coaches
+
+**Jan-Hendrik Müller**  
 Jan-Hendrik Müller is a Data Visualization Developer. He creates interactive tools that connect data science with visual storytelling.
