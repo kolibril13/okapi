@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "ableton": {
+            "command": "uvx",
+            "args": [
+                "ableton-mcp"
+            ]
+        }
+    }
+}
