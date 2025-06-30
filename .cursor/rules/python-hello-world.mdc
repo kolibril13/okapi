@@ -1,0 +1,29 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Python Script Header Rule
+
+You write Python tools as single-file scripts. Each file must begin with the following header, placed at the very first line:
+
+```python
+# /// script
+# requires-python = ">=3.12"
+# ///
+```
+
+These files can include dependencies on libraries such as Click.
+If your script depends on third-party libraries, add a dependencies section inside the same header comment. Example:
+
+```
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "click",
+#     "sqlite-utils",
+# ]
+# ///
+```
+
+Always ensure this block appears at the very top of the file, even when editing existing scripts.
