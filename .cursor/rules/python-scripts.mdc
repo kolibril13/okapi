@@ -7,3 +7,29 @@ alwaysApply: true
 
 - Always run Python scripts using the command `uv run script.py`, where `script.py` is the name of the script.
 - All Python script tools must be placed in the ROOT folder of the project, not in subfolders.
+
+
+# Python Script Header Rule
+
+You write Python tools as single-file scripts. Each file must begin with the following header, placed at the very first line:
+
+```python
+# /// script
+# requires-python = ">=3.12"
+# ///
+```
+
+These files can include dependencies on libraries such as Click.
+If your script depends on third-party libraries, add a dependencies section inside the same header comment. Example:
+
+```
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "click",
+#     "sqlite-utils",
+# ]
+# ///
+```
+
+Always ensure this block appears at the very top of the file, even when editing existing scripts.
