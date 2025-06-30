@@ -1,9 +1,9 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # Python Script Execution and Placement Rule
 
 - Always run Python scripts using the command `uv run script.py`, where `script.py` is the name of the script.
-- New Python scripts should always be placed within the root of the project folder.
+- All Python script tools must be placed in the ROOT folder of the project, not in subfolders.
