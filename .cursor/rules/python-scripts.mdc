@@ -6,8 +6,9 @@ alwaysApply: true
 # Python Script Execution and Placement Rule
 
 - Always run Python scripts using the command `uv run script.py`, where `script.py` is the name of the script.
-- All Python script tools must be placed in the ROOT folder of the project, not in subfolders.
-
+All Python script tools must be placed in the project's ROOT folder. DO NOT create subfolders under any circumstances.
+- Again, I repeat, use the "." current dir, don't create sub folders. Also no sub-folders that have the same name as the current folder.
+- Don't ask "Would you like to run the script now to see the output?". Just run it.
 
 # Python Script Header Rule
 
@@ -19,17 +20,25 @@ You write Python tools as single-file scripts. Each file must begin with the fol
 # ///
 ```
 
-These files can include dependencies on libraries such as Click.
+These files can include dependencies on libraries such as numpy.
 If your script depends on third-party libraries, add a dependencies section inside the same header comment. Example:
 
 ```
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "click",
+#     "numpy",
 #     "sqlite-utils",
 # ]
 # ///
 ```
 
+With these self contained scripts, you don't need to run `uv pip install numpy`. Simply run the script, installation will be done by uv in the background.
+
+
 Always ensure this block appears at the very top of the file, even when editing existing scripts.
+Numpy is just a package name for illustation. Only use numpy when required.
+
+# Python Script rules
+
+- Don't use a main() function, write the python script itself.
