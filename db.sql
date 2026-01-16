@@ -21,3 +21,9 @@ DELETE FROM users
 WHERE user_id = 1;
 
 SELECT * FROM users;
+
+-- psql -h localhost -d postgres
+
+-- \dt
+
+-- \i db.sql 
