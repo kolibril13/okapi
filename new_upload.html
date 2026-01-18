@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Asset – Geo Nodes XYZ</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="login-corner"></div>
+  <a href="index.html" class="back-button">←</a>
+
+  <h1>Upload Asset</h1>
+
+  <div id="login-prompt" class="login-prompt">
+    <p>Please log in with Discord to upload assets.</p>
+  </div>
+
+  <form id="asset-form" class="asset-form" style="display: none;">
+    <div class="form-group">
+      <label for="asset-data">Asset Data *</label>
+      <textarea
+        id="asset-data"
+        placeholder="TreeClipper::H4sIALGFY2kC/+1aW2/iOBT..."
+        rows="5"
+        required
+      ></textarea>
+    </div>
+
+    <div id="more-fields" style="display: none;">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="Ring Arrangement (optional)" />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" rows="3" placeholder="Brief description (optional)"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Preview Image</label>
+        <div class="image-dropzone" id="image-dropzone">
+          <input type="file" id="image-input" accept="image/*" hidden />
+          <div class="dropzone-content">
+            <span class="dropzone-icon">📷</span>
+            <span class="dropzone-text">Drag & drop an image here<br />or click to select</span>
+          </div>
+          <img id="image-preview" class="image-preview" alt="Preview" />
+          <button type="button" id="remove-image" class="remove-image">×</button>
+        </div>
+      </div>
+
+      <button type="submit">Submit Asset</button>
+    </div>
+  </form>
+
+  <div id="output" class="status-message">
+    <span class="status-icon"></span>
+    <span class="status-text"></span>
+  </div>
+
+  <div class="prototype-warning">⚠️ Early Prototype. Work in progress. All data will be deleted every few hours.</div>
+
+  <script type="module">
+    import { supabase, initLoginCorner } from "./auth.js";
+
+    // Init login corner
+    initLoginCorner();
+
+    const form = document.getElementById("asset-form");
+    const loginPrompt = document.getElementById("login-prompt");
+    const output = document.getElementById("output");
+    const statusIcon = output.querySelector(".status-icon");
+    const statusText = output.querySelector(".status-text");
+    const assetDataInput = document.getElementById("asset-data");
+    const moreFields = document.getElementById("more-fields");
+
+    let statusTimeout;
+
+    // ---------------- AUTH STATE ----------------
+    function updateAuthUI(user) {
+      if (user) {
+        form.style.display = "";
+        loginPrompt.style.display = "none";
+      } else {
+        form.style.display = "none";
+        loginPrompt.style.display = "";
+      }
+    }
+
+    // Get initial state
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      updateAuthUI(user);
+    });
+
+    // Listen for changes
+    supabase.auth.onAuthStateChange((event, session) => {
+      updateAuthUI(session?.user ?? null);
+    });
+
+    function showStatus(type, message) {
+      clearTimeout(statusTimeout);
+      output.classList.remove("fade-out");
+      output.className = "status-message visible " + type;
+      statusIcon.textContent = type === "success" ? "✓" : type === "error" ? "✕" : "ℹ";
+      statusText.textContent = message;
+      
+      // Auto fade out after 1 second
+      statusTimeout = setTimeout(() => {
+        output.classList.add("fade-out");
+        setTimeout(() => {
+          output.classList.remove("visible", "fade-out");
+        }, 400);
+      }, 1000);
+    }
+
+    // ---------------- CONDITIONAL FIELDS SHOW/HIDE ----------------
+    // Extra logic for "once-typed, fields stay"
+    let hasAssetDataBeenTouched = false;
+
+    function updateMoreFieldsVisibility() {
+      const val = assetDataInput.value.trim();
+      if (!hasAssetDataBeenTouched && val.length >= 1) {
+        hasAssetDataBeenTouched = true;
+      }
+      if (hasAssetDataBeenTouched) {
+        moreFields.style.display = "";
+      } else {
+        moreFields.style.display = "none";
+      }
+    }
+
+    assetDataInput.addEventListener("input", updateMoreFieldsVisibility);
+    updateMoreFieldsVisibility();
+
+    // IMAGE UI hooks in 'more-fields' context
+    const imageDropzone = document.getElementById("image-dropzone");
+    const imageInput = document.getElementById("image-input");
+    const imagePreview = document.getElementById("image-preview");
+    const removeImageBtn = document.getElementById("remove-image");
+
+    let selectedImageFile = null;
+
+    // ---------------- IMAGE UI ----------------
+    imageDropzone.addEventListener("click", () => imageInput.click());
+
+    imageDropzone.addEventListener("dragover", e => {
+      e.preventDefault();
+      imageDropzone.classList.add("dragover");
+    });
+
+    imageDropzone.addEventListener("dragleave", () =>
+      imageDropzone.classList.remove("dragover")
+    );
+
+    imageDropzone.addEventListener("drop", e => {
+      e.preventDefault();
+      imageDropzone.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      if (file?.type.startsWith("image/")) setImage(file);
+    });
+
+    imageInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) setImage(file);
+    });
+
+    function setImage(file) {
+      selectedImageFile = file;
+      imagePreview.src = URL.createObjectURL(file);
+      imageDropzone.classList.add("has-image");
+    }
+
+    removeImageBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      selectedImageFile = null;
+      imageInput.value = "";
+      imagePreview.src = "";
+      imageDropzone.classList.remove("has-image");
+    });
+
+    // Handle Ctrl+V / Cmd+V paste for images (only when moreFields is visible)
+    document.addEventListener("paste", e => {
+      // Only if shown
+      if (moreFields.style.display === "none") return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (const item of items) {
+        if (item.type.startsWith("image/")) {
+          e.preventDefault();
+          const file = item.getAsFile();
+          if (file) setImage(file);
+          break;
+        }
+      }
+    });
+
+    // ---------------- WRITE ----------------
+    form.onsubmit = async e => {
+      e.preventDefault();
+
+      // Only allow submit when moreFields is visible
+      if (moreFields.style.display === "none") return;
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        showStatus("error", "Please log in to upload assets.");
+        return;
+      }
+
+      let imageUrl = null;
+
+      if (selectedImageFile) {
+        const ext = selectedImageFile.name.split(".").pop();
+        const filePath = `${session.user.id}/asset-${Date.now()}.${ext}`;
+
+        const { error } = await supabase.storage
+          .from("asset-images")
+          .upload(filePath, selectedImageFile);
+
+        if (error) {
+          showStatus("error", "Image upload failed: " + error.message);
+          return;
+        }
+
+        imageUrl = supabase.storage
+          .from("asset-images")
+          .getPublicUrl(filePath).data.publicUrl;
+      }
+
+      const payload = {
+        assetData: document.getElementById("asset-data").value.trim(),
+        title: document.getElementById("title").value.trim() || null,
+        description: document.getElementById("description").value.trim() || null,
+        imageData: imageUrl
+      };
+
+      const res = await fetch("/api/entries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        showStatus("success", "Upload complete!");
+        form.reset();
+        selectedImageFile = null;
+        imagePreview.src = "";
+        imageDropzone.classList.remove("has-image");
+        // Also reset hasAssetDataBeenTouched so user returns to "untouched" logic again.
+        hasAssetDataBeenTouched = false;
+        updateMoreFieldsVisibility(); // reset show/hide
+      } else {
+        showStatus("error", await res.text());
+      }
+    };
+  </script>
+</body>
+</html>
