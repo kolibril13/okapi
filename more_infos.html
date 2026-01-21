@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset 1 - Geo Nodes XYZ</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="copy-asset.js"></script>
+    <script src="decode-asset.js"></script>
+</head>
+<body>
+    <a href="index.html" class="back-button">←</a>
+    <h1>
+        <span style="color: #888;">Asset 1:&nbsp;</span>
+        <span id="asset-title" style="color: #232323;"></span>
+    </h1>
+
+    <div class="asset-meta">
+        <p><strong>Author:</strong> <span id="asset-author"></span></p>
+        <p><strong>Created:</strong> <span id="asset-created"></span> · <strong>Updated:</strong> <span id="asset-updated"></span></p>
+    </div>
+
+    <div class="asset-layout">
+        <img id="asset-img" src="" alt="Asset preview" class="asset-img">
+        <div class="copy-asset">
+            <p>Asset data:</p>
+            <pre id="asset-data"></pre>
+            <button id="copy-button" class="copy-button" onclick="copyAssetData()">Copy</button>
+        </div>
+    </div>
+
+    <div class="asset-info">
+        <h2>About this asset</h2>
+        <p id="asset-description"></p>
+        <div id="asset-additional"></div>
+    </div>
+
+    <div class="asset-info">
+        <h2>Node Statistics</h2>
+        <div id="node-stats"><p>Loading...</p></div>
+    </div>
+
+    <div class="asset-info">
+        <h2>Decoded Asset Data</h2>
+        <pre id="decoded-asset" style="max-height: 400px; overflow: auto;">Loading...</pre>
+    </div>
+
+
+    <script>
+        async function loadAssetData() {
+            try {
+                const response = await fetch('asset1.json');
+                const data = await response.json();
+
+                // Populate the page
+                document.getElementById('asset-title').textContent = data.title;
+                document.getElementById('asset-author').textContent = data.author;
+
+                // Format dates
+                function formatDate(dateStr) {
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                }
+                document.getElementById('asset-created').textContent = formatDate(data.creationDate);
+                document.getElementById('asset-updated').textContent = formatDate(data.lastUpdate);
+
+                // Image
+                document.getElementById('asset-img').src = data.imageData ? data.imageData : '';
+
+                // Asset Data
+                document.getElementById('asset-data').textContent = data.assetData;
+                document.getElementById('asset-data').dataset.assetId = data.id;
+
+                // Description
+                document.getElementById('asset-description').textContent = data.description;
+
+                // Additional info, if present
+                if (data.additionalInfo) {
+                    const additionalEl = document.getElementById('asset-additional');
+                    let html = '<ul class="additional-info">';
+                    if (data.additionalInfo.blenderVersion) {
+                        html += `<li><strong>Blender Version:</strong> ${data.additionalInfo.blenderVersion}</li>`;
+                    }
+                    if (data.additionalInfo.category) {
+                        html += `<li><strong>Category:</strong> ${data.additionalInfo.category}</li>`;
+                    }
+                    if (data.additionalInfo.tags && data.additionalInfo.tags.length) {
+                        html += `<li><strong>Tags:</strong> ${data.additionalInfo.tags.join(', ')}</li>`;
+                    }
+                    html += '</ul>';
+                    additionalEl.innerHTML = html;
+                }
+
+                document.title = `${data.title} - Geo Nodes XYZ`;
+
+                // Now decode and display the asset data
+                decodeAndDisplayAsset();
+            } catch (error) {
+                console.error('Failed to load asset data:', error);
+            }
+        }
+        loadAssetData();
+    </script>
+</body>
+</html>
